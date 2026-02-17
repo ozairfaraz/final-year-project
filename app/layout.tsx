@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { ThemeProvider } from "../context/themeProvider";
 import "./globals.css";
+import Navbar from "@/components/navigation/navbar";
 
 const inter = localFont({
   src: "./fonts/interVF.ttf",
@@ -16,10 +18,11 @@ const spaceGrotesk = localFont({
 
 export const metadata: Metadata = {
   title: "DevFlow",
-  description: "A platform for developers for asking and answering questions,collaborating on projects, and sharing knowledge. Explore a wide range of topics, from programming languages and frameworks to best practices and industry trends.",
-  icons:{
+  description:
+    "A platform for developers for asking and answering questions,collaborating on projects, and sharing knowledge. Explore a wide range of topics, from programming languages and frameworks to best practices and industry trends.",
+  icons: {
     icon: "/app/favicon.ico",
-  }
+  },
 };
 
 export default function RootLayout({
@@ -28,12 +31,20 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
         suppressHydrationWarning
         className={`${inter.className} ${spaceGrotesk.variable} antialiased`}
       >
-        {children}
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <Navbar />
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );
